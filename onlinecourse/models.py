@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Course(models.Model):
@@ -8,6 +9,27 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Instructor(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Learner(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.user.username
 
 
 class Lesson(models.Model):
@@ -54,7 +76,10 @@ class Choice(models.Model):
 
 
 class Submission(models.Model):
-    student_name = models.CharField(max_length=100, default="Student")
+    student_name = models.CharField(
+        max_length=100,
+        default="Student"
+    )
     question = models.ForeignKey(
         Question,
         on_delete=models.CASCADE,
