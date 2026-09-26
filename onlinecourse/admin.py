@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Course, Lesson, Question, Choice, Submission
+from .models import (
+    Course,
+    Instructor,
+    Learner,
+    Lesson,
+    Question,
+    Choice,
+    Submission,
+)
 
 
 class ChoiceInline(admin.TabularInline):
@@ -33,6 +41,16 @@ class LessonAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
+
+
+@admin.register(Instructor)
+class InstructorAdmin(admin.ModelAdmin):
+    list_display = ("user", "bio")
+
+
+@admin.register(Learner)
+class LearnerAdmin(admin.ModelAdmin):
+    list_display = ("user",)
 
 
 @admin.register(Choice)
