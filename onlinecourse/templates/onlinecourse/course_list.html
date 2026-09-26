@@ -1,0 +1,26 @@
+{% extends "onlinecourse/base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+    <h1 class="display-6 fw-bold">Online Course</h1>
+    <p class="lead">Learn, practice and take assessments.</p>
+</div>
+
+<div class="row g-4">
+{% for course in courses %}
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">{{ course.name }}</h3>
+                <p class="card-text">{{ course.description }}</p>
+                <a href="{% url 'course_details' course.id %}" class="btn btn-primary">
+                    View Course
+                </a>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <div class="alert alert-info">No courses found. Run <code>python manage.py seed_demo</code>.</div>
+{% endfor %}
+</div>
+{% endblock %}

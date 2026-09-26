@@ -1,0 +1,59 @@
+{% extends "onlinecourse/base.html" %}
+{% block title %}Exam Result{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body text-center p-5">
+        {% if score == total %}
+            <div class="display-1 mb-3">🎉</div>
+            <h1 class="text-success fw-bold">Congratulations, {{ student_name }}!</h1>
+            <p class="lead">You successfully completed the mock exam.</p>
+        {% elif score >= total|add:"-2" %}
+            <h1 class="fw-bold">Good Attempt, {{ student_name }}!</h1>
+        {% else %}
+            <h1 class="fw-bold">Exam Completed, {{ student_name }}</h1>
+        {% endif %}
+
+        <div class="display-4 fw-bold mt-3">
+            Score: {{ score }} / {{ total }}
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-3">Exam Results</h2>
+
+{% for item in results %}
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <h5>Q{{ forloop.counter }}. {{ item.question.text }}</h5>
+
+        {% if item.is_correct %}
+            <div class="alert alert-success mb-0">
+                <strong>Correct</strong> — Your answer:
+                {{ item.selected_choice.text }}
+            </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <strong>Incorrect</strong> —
+                Your answer:
+                {% if item.selected_choice %}
+                    {{ item.selected_choice.text }}
+                {% else %}
+                    Not answered
+                {% endif %}
+            </div>
+            <div class="alert alert-info mb-0">
+                Correct answer: {{ item.correct_choice.text }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<div class="d-flex gap-2">
+    <a href="{% url 'exam' lesson.id %}" class="btn btn-primary">Try Again</a>
+    <a href="{% url 'course_details' lesson.course.id %}" class="btn btn-outline-secondary">
+        Back to Course
+    </a>
+</div>
+{% endblock %}
